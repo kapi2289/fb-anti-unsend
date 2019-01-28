@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import fbchat
+import time
 
 
 class Client(fbchat.Client):
@@ -11,6 +12,10 @@ class Client(fbchat.Client):
 
     def onMessage(self, message_object, thread_id, **kwargs):
         self.messages.append(message_object)
+        for i in range(len(self.messages)):
+             ts = (time.time() - 10 * 60) * 1000
+             if self.messages[i].timestamp < ts:
+                 del(self.messages[i])
 
 
 if __name__ == "__main__":
