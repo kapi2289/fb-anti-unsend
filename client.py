@@ -4,7 +4,10 @@ import fbchat
 
 
 class Client(fbchat.Client):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super(Client, self).__init__(*args, **ķwargs)
+        self.messages = dict()
 
 
 if __name__ == "__main__":
