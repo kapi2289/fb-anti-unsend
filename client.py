@@ -11,6 +11,7 @@ class Client(fbchat.Client):
     def __init__(self, *args, **kwargs):
         super(Client, self).__init__(*args, **kwargs)
         self.messages = list()
+        self.setDefaultThread(self.uid, ThreadType.USER)
 
     def onMessage(self, message_object, thread_id, **kwargs):
         self.messages.append(message_object)
@@ -19,7 +20,7 @@ class Client(fbchat.Client):
              ts = (time.time() - 10 * 60) * 1000
              if message.timestamp < ts:
                  print("Deleted {}".format(message))
-                 self.messages = list(filter(x: x is not message, self.messages))
+                 self.messages = list(filter(lambda x: x is not message, self.messages))
 
     def onMessageUnsent(self, mid, author_id, **kwargs):
         print("Detected unsent {}".format(mid))
@@ -42,12 +43,12 @@ class Client(fbchat.Client):
                         continue
                     files.append((a.uid, mime))
                 author = self.fetchUserInfo(message.author)[message.author]
-                self.sendMessage("{} unsent the message:".format(author.name), thread_id=self.uid, thread_type=ThreadType.USER)
+                self.sendMessage("{} unsent the message:".format(author.name))
                 if files:
-                    self._sendFiles(files, message, thread_id=self.uid, thread_type=ThreadType.USER)
+                    self._sendFiles(files, message)
                 else:
-                    self.send(message, thread_id=self.uid, thread_type=ThreadType.USER)
-                self.messages = list(filter(x: x is not  message, self.messages))
+                    self.send(message)
+                self.messages = list(filter(lambda x: x is not  message, self.messages))
                 break
 
 
