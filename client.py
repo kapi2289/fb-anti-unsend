@@ -3,6 +3,7 @@
 import fbchat
 import time
 from options import *
+from fbchat.models import *
 
 
 class Client(fbchat.Client):
@@ -13,10 +14,23 @@ class Client(fbchat.Client):
 
     def onMessage(self, message_object, thread_id, **kwargs):
         self.messages.append(message_object)
+        print("Received {}".format(message_object))
         for i in range(len(self.messages)):
              ts = (time.time() - 10 * 60) * 1000
              if self.messages[i].timestamp < ts:
+                 print("Deleted {}".format(self.messages[i]))
                  del(self.messages[i])
+
+    def onMessageUnsent(self, mid, author_id, **kwargs):
+        print("Detected unsent {}".format(mid))
+        if IGNORE_SELF and author_id == self.uid:
+            return
+        for i in range(len(self.messages)):
+            if self.messages[i].uid == mid:
+                print("Found {}".format(self.messages[i]))
+                self.send(self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
+                del(self.messages[i])
+                break
 
 
 if __name__ == "__main__":
