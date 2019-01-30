@@ -8,7 +8,7 @@ from options import *
 class Client(fbchat.Client):
 
     def __init__(self, *args, **kwargs):
-        super(Client, self).__init__(*args, **ķwargs)
+        super(Client, self).__init__(*args, **kwargs)
         self.messages = list()
 
     def onMessage(self, message_object, thread_id, **kwargs):
