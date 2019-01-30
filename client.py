@@ -28,7 +28,23 @@ class Client(fbchat.Client):
         for i in range(len(self.messages)):
             if self.messages[i].uid == mid:
                 print("Found {}".format(self.messages[i]))
-                self.send(self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
+                files = []
+                for a in self.messages[i].attachments:
+                    if isinstance(a, ImageAttachment):
+                        mime = "image/gif" if a.is_animated else "image/png"
+                    elif isinstance(a, VideoAttachment):
+                        mime = "video/mpeg"
+                    elif isinstance(a, AudioAttachment):
+                        mime = "audio/mp3"
+                    elif isinstance(a, FileAttachment):
+                        mime = None
+                    else:
+                        continue
+                    files.append((a.uid, mime))
+                if files:
+                    self._sendFiles(files, self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
+                else:
+                    self.send(self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
                 del(self.messages[i])
                 break
 
