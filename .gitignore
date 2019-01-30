@@ -105,3 +105,6 @@ venv.bak/
 
 # Facebook session file
 session.json
+
+# nohup logs
+nohup.out
