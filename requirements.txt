@@ -1,2 +1,2 @@
 fbchat
-dotenv
+python-dotenv
