@@ -15,7 +15,7 @@ FB_USE_SESSION = is_true(os.getenv("FB_USE_SESSION"))
 FB_SESSION_FILE = "session.json" or os.getenv("FB_SESSION_FILE")
 
 with open(FB_SESSION_FILE) as f:
-    FB_SESSION = json.loads(f.read())
+    FB_SESSION = json.loads(f.read()) if FB_USE_SESSION else None
 
 IGNORE_SELF = is_true(os.getenv("IGNORE_SELF"))
 
