@@ -15,21 +15,21 @@ class Client(fbchat.Client):
     def onMessage(self, message_object, thread_id, **kwargs):
         self.messages.append(message_object)
         print("Received {}".format(message_object))
-        for i in range(len(self.messages)):
+        for message in self.messages:
              ts = (time.time() - 10 * 60) * 1000
-             if self.messages[i].timestamp < ts:
-                 print("Deleted {}".format(self.messages[i]))
-                 del(self.messages[i])
+             if message.timestamp < ts:
+                 print("Deleted {}".format(message))
+                 self.messages = list(filter(x: x is not message, self.messages))
 
     def onMessageUnsent(self, mid, author_id, **kwargs):
         print("Detected unsent {}".format(mid))
         if IGNORE_SELF and author_id == self.uid:
             return
-        for i in range(len(self.messages)):
-            if self.messages[i].uid == mid:
-                print("Found {}".format(self.messages[i]))
+        for message in self.messages:
+            if message.uid == mid:
+                print("Found {}".format(message))
                 files = []
-                for a in self.messages[i].attachments:
+                for a in message.attachments:
                     if isinstance(a, ImageAttachment):
                         mime = "image/gif" if a.is_animated else "image/png"
                     elif isinstance(a, VideoAttachment):
@@ -41,13 +41,13 @@ class Client(fbchat.Client):
                     else:
                         continue
                     files.append((a.uid, mime))
-                author = self.fetchUserInfo(self.messages[i].author)[self.messages[i].author]
+                author = self.fetchUserInfo(message.author)[message.author]
                 self.sendMessage("{} unsent the message:".format(author.name), thread_id=self.uid, thread_type=ThreadType.USER)
                 if files:
-                    self._sendFiles(files, self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
+                    self._sendFiles(files, message, thread_id=self.uid, thread_type=ThreadType.USER)
                 else:
-                    self.send(self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
-                del(self.messages[i])
+                    self.send(message, thread_id=self.uid, thread_type=ThreadType.USER)
+                self.messages = list(filter(x: x is not  message, self.messages))
                 break
 
 
