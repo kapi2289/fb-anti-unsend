@@ -41,6 +41,8 @@ class Client(fbchat.Client):
                     else:
                         continue
                     files.append((a.uid, mime))
+                author = self.fetchUserInfo(self.messages[i].author)[self.messages[i].author]
+                self.sendMessage("{} unsent the message:".format(author.name), thread_id=self.uid, thread_type=ThreadType.USER)
                 if files:
                     self._sendFiles(files, self.messages[i], thread_id=self.uid, thread_type=ThreadType.USER)
                 else:
