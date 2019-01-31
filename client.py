@@ -32,21 +32,21 @@ class Client(fbchat.Client):
                 files = []
                 for a in message.attachments:
                     if isinstance(a, ImageAttachment):
-                        mime = "image/gif" if a.is_animated else "image/png"
+                        url = a.large_preview_url
                     elif isinstance(a, VideoAttachment):
-                        mime = "video/mpeg"
+                        url = a.preview_url
                     elif isinstance(a, AudioAttachment):
-                        mime = "audio/mp3"
+                        url = a.url
                     elif isinstance(a, FileAttachment):
-                        mime = None
+                        url = a.url 
                     else:
                         continue
-                    files.append((a.uid, mime))
+                    files.append(url)
                 author = self.fetchUserInfo(message.author)[message.author]
                 self.sendMessage("{} unsent the message:".format(author.name))
                 if files:
-                    self._sendFiles(files, message)
-                else:
+                    self.sendMessage("Attachments: \n{}".format("\n----------\n".join(files)))
+                if message.text:
                     self.send(message)
                 self.messages = list(filter(lambda x: x is not  message, self.messages))
                 break
