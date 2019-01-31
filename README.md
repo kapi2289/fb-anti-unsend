@@ -38,3 +38,5 @@ with open("session.json", 'w') as f:
 	f.write(json.dumps(session))
 ```
 
+And then you need to set the `FB_USE_SESSION` option to `true` in your `.env` file
+
