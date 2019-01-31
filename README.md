@@ -23,7 +23,7 @@ $ python -m pip install -r requirements.txt
 
 And now you can run it!
 ```console
-$ python client.py
+$ python run.py
 ```
 
 # Tips
