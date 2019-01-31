@@ -43,7 +43,7 @@ class Client(fbchat.Client):
                         continue
                     files.append(url)
                 author = self.fetchUserInfo(message.author)[message.author]
-                self.sendMessage("{} unsent the message:".format(author.name))
+                self.send(Message("{} unsent the message:".format(author.name), mentions=[Mention(author.uid, length=len(author.name))]))
                 if files:
                     self.sendMessage("Attachments: \n{}".format("\n----------\n".join(files)))
                 if message.text:
