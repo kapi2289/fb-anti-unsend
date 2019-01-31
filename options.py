@@ -18,4 +18,5 @@ with open(FB_SESSION_FILE) as f:
     FB_SESSION = json.loads(f.read()) if FB_USE_SESSION else None
 
 IGNORE_SELF = is_true(os.getenv("IGNORE_SELF"))
+ALWAYS_ACTIVE = is_true(os.getenv("ALWAYS_ACTIVE"))
 

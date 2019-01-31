@@ -54,5 +54,5 @@ class Client(fbchat.Client):
 
 if __name__ == "__main__":
     client = Client(FB_EMAIL, FB_PASSWORD, session_cookies=FB_SESSION)
-    client.listen()
+    client.listen(ALWAYS_ACTIVE)
 
