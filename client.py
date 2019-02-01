@@ -46,7 +46,7 @@ class Client(fbchat.Client):
                 self.send(Message("{} unsent the message:".format(author.name), mentions=[Mention(author.uid, length=len(author.name))]))
                 if files:
                     self.sendMessage("Attachments: \n{}".format("\n----------\n".join(files)))
-                if message.text:
+                if message.text or message.sticker:
                     self.send(message)
                 self.messages = list(filter(lambda x: x is not  message, self.messages))
                 break
