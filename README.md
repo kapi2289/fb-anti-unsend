@@ -3,7 +3,7 @@
 ## Description
 Are you getting angry when someone unsends the message and you can't see it? This project is for you! When someone will unsend the message, you'll get it immediately in your conversation with yourself.
 
-# Installation
+## Installation
 Clone the repo
 ```console
 $ git clone https://github.com/kapi2289/fb-anti-unsend.git
@@ -26,7 +26,7 @@ And now you can run it!
 $ python run.py
 ```
 
-# Tips
+## Tips
 This project is using `fbchat` library. You can get your session, turn it to JSON and save it to the `session.json` file
 ```python
 import fbchat
