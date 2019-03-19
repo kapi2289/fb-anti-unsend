@@ -1,2 +1,2 @@
-fbchat
+fbchat~=1.6.4
 python-dotenv

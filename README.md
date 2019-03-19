@@ -18,12 +18,13 @@ $ nano .env
 
 Install dependencies
 ```console
-$ python -m pip install -r requirements.txt
+$ python -m pip install --user pipenv
+$ python -m pipenv install
 ```
 
 And now you can run it!
 ```console
-$ python run.py
+$ python -m pipenv run python run.py
 ```
 
 ## Tips
