@@ -41,6 +41,7 @@ class Client(fbchat.Client):
                         continue
                     files.append(url)
                 author = self.fetchUserInfo(message.author)[message.author]
+                message.reply_to_id = None
                 self.send(Message("{} unsent the message:".format(author.name),
                                   mentions=[Mention(author.uid, length=len(author.name))]))
                 if files:
