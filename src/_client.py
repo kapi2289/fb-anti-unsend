@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import fbchat
 import time
-from options import *
+
+import fbchat
 from fbchat.models import *
+
+from ._settings import *
 
 
 class Client(fbchat.Client):
@@ -15,20 +17,16 @@ class Client(fbchat.Client):
 
     def onMessage(self, message_object, thread_id, **kwargs):
         self.messages.append(message_object)
-        print("Received {}".format(message_object))
         for message in self.messages:
-             ts = (time.time() - 10 * 60) * 1000
-             if message.timestamp < ts:
-                 print("Deleted {}".format(message))
-                 self.messages = list(filter(lambda x: x is not message, self.messages))
+            ts = (time.time() - 10 * 60) * 1000
+            if message.timestamp < ts:
+                self.messages = list(filter(lambda x: x is not message, self.messages))
 
     def onMessageUnsent(self, mid, author_id, **kwargs):
-        print("Detected unsent {}".format(mid))
         if IGNORE_SELF and author_id == self.uid:
             return
         for message in self.messages:
             if message.uid == mid:
-                print("Found {}".format(message))
                 files = []
                 for a in message.attachments:
                     if isinstance(a, ImageAttachment):
@@ -38,16 +36,16 @@ class Client(fbchat.Client):
                     elif isinstance(a, AudioAttachment):
                         url = a.url
                     elif isinstance(a, FileAttachment):
-                        url = a.url 
+                        url = a.url
                     else:
                         continue
                     files.append(url)
                 author = self.fetchUserInfo(message.author)[message.author]
-                self.send(Message("{} unsent the message:".format(author.name), mentions=[Mention(author.uid, length=len(author.name))]))
+                self.send(Message("{} unsent the message:".format(author.name),
+                                  mentions=[Mention(author.uid, length=len(author.name))]))
                 if files:
                     self.sendMessage("Attachments: \n{}".format("\n----------\n".join(files)))
                 if message.text or message.sticker:
                     self.send(message)
-                self.messages = list(filter(lambda x: x is not  message, self.messages))
+                self.messages = list(filter(lambda x: x is not message, self.messages))
                 break
-

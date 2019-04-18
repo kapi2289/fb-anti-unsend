@@ -18,13 +18,13 @@ $ nano .env
 
 Install dependencies
 ```console
-$ python -m pip install --user pipenv
-$ python -m pipenv install
+$ pip install --user pipenv
+$ pipenv install
 ```
 
 And now you can run it!
 ```console
-$ python -m pipenv run python run.py
+$ pipenv run python start.py
 ```
 
 ## Tips
@@ -40,4 +40,3 @@ with open("session.json", 'w') as f:
 ```
 
 And then you need to set the `FB_USE_SESSION` option to `true` in your `.env` file
-
