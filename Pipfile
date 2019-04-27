@@ -6,8 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-fbchat = "~=1.6.5"
 python-dotenv = "*"
+fbchat = {git = "https://github.com/carpedm20/fbchat.git",ref = "f480d68b5773473e6daba7f66075ee30e8d737a8"}
 
 [requires]
 python_version = "3.6"
